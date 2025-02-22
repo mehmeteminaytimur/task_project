@@ -1,3 +1,5 @@
+
+import time
 class User():
      
     def __init__(self, username, password):
@@ -17,12 +19,16 @@ class User():
                     raise ValueError("Username or password is wrong. Please try again.")
             except ValueError as e:
                 print(f"An error occured: {e}")
+            except Exception as e:
+                print(f"An error occured: {e}")
+    
   
 class Task(User):
     
     def __init__(self, username, password):
         super().__init__(username, password)
         self.taskList = []
+        self.logged_in = False
 
     def createTask(self):
         while True:
@@ -31,12 +37,16 @@ class Task(User):
                 break
             except ValueError:
                 print("Please enter a valid number.")
+            except Exception as e:
+                print(f"An error occured: {e}")
             
         while numberOfTasks > 0:
             createNewTask = input("Create a new task: ")
             numberOfTasks -= 1
             self.taskList.append(createNewTask)
         print(self.taskList)
+        
+
     
     def removeTask(self):
         if not self.taskList:
@@ -57,7 +67,7 @@ class Task(User):
                     
             except ValueError:
                 print("Enter name of the task correctly.")
-                    
+            
     def updateTask(self):
         """
         Which tasks do you want to update?(1,2,3 or ..7,8...) 
@@ -114,19 +124,26 @@ class Task(User):
                     print("Invalid index number! Enter a valid index number.")
             
             except ValueError:
-                print("Enter a valid number.")                    
+                print("Enter a valid number.")
+            except Exception as e:
+                print(f"An error occured: {e}")                    
                 
         if updateRequestNumber == 0:
             print("All updates have been completed.")
+        
             
     def showTaskList(self):
         if self.taskList:
             print(f"Here is the current task list >>> {self.taskList}")
         else:
             print("There is no task yet.")
+        
 
     def choices(self):
-        self.Login()
+        if not self.logged_in:
+            self.Login()
+            self.logged_in = True
+            print("Login successful!")
         
         print("""
         Choices: 
@@ -134,6 +151,7 @@ class Task(User):
         2 - REMOVE CURRENT TASK
         3 - SHOW TASK LIST
         4 - UPDATE CURRENT TASK
+        q - Enter q or Q to log out
         """)
        
         while True:   
@@ -152,10 +170,21 @@ class Task(User):
                 self.updateTask()
                 
             elif choice == "q":
-                break
+                print("Wait 3 seconds ,exiting the program...")
+                j = 3
+                for i in range(0,3):
+                    print(j)
+                    j-=1
+                    time.sleep(1)
+                    
+                return
+    
             
             else:
                 print("Invalid choice. Please enter 1,2,3,4 or 'q' .")
-        
-taskExecuter = Task("user1", "123456789")
-taskExecuter.choices()
+                
+def main():  #main method
+    taskExecuter = Task("user1", "123456789")
+    taskExecuter.choices()     
+if __name__ == "__main__":
+    main()
