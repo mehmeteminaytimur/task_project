@@ -5,7 +5,7 @@ class User():
     def __init__(self, username, password):
         self.username = username
         self.password = password
-     
+        self.logged_in = False
     def Login(self):
         while True:    
             try:
@@ -13,7 +13,10 @@ class User():
                 passwordInput = input("Enter your password: ").strip()
                 
                 if (usernameInput, passwordInput) == (self.username, self.password):
+                   
                     print("Logged in successfully!")
+                    self.logged_in = True
+                    
                     break
                 else:
                     raise ValueError("Username or password is wrong. Please try again.")
@@ -28,7 +31,7 @@ class Task(User):
     def __init__(self, username, password):
         super().__init__(username, password)
         self.taskList = []
-        self.logged_in = False
+        
 
     def createTask(self):
         while True:
@@ -142,7 +145,6 @@ class Task(User):
     def choices(self):
         if not self.logged_in:
             self.Login()
-            self.logged_in = True
             print("Login successful!")
         
         print("""
@@ -176,7 +178,6 @@ class Task(User):
                     print(j)
                     j-=1
                     time.sleep(1)
-                    
                 return
     
             
