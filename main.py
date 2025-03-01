@@ -13,8 +13,6 @@ class User():
                 passwordInput = input("Enter your password: ").strip()
                 
                 if (usernameInput, passwordInput) == (self.username, self.password):
-                   
-                    print("Logged in successfully!")
                     self.logged_in = True
                     
                     break
